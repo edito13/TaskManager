@@ -1,27 +1,6 @@
-import React, { useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { Container } from "./styles/styles";
-import { FaCheck } from "react-icons/fa";
+import React from "react";
+import Router from "./Routes";
 
-const App = () => {
-  useEffect(() => {
-    AOS.init();
-  }, []);
-
-  return (
-    <Container>
-      <div data-aos="zoom-in" data-aos-delay="200">
-        <div>
-          <FaCheck />
-        </div>
-        <h1>Gestor de Tarefas</h1>
-      </div>
-      <div className="loading" data-aos="zoom-in" data-aos-delay="400">
-        <div onAnimationEnd={() => alert("Terminou")}></div>
-      </div>
-    </Container>
-  );
-};
+const App = () => <Router />;
 
 export default App;

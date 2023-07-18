@@ -43,7 +43,7 @@ export const Container = styled.div`
     div {
       height: 100%;
       background: #8b57f6;
-      animation: loading 4s ease-in-out 0.2s;
+      animation: loading 5s ease-in-out 0.2s;
     }
 
     @keyframes loading {
