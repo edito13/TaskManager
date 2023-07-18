@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { Container } from "./styles/styles";
+import { FaCheck } from "react-icons/fa";
 
 const App = () => {
+  useEffect(() => {
+    AOS.init();
+  }, []);
+
   return (
-    <div>
-      <h1>Hello World</h1>
-    </div>
+    <Container>
+      <div data-aos="zoom-in" data-aos-delay="200">
+        <div>
+          <FaCheck />
+        </div>
+        <h1>Gestor de Tarefas</h1>
+      </div>
+      <div className="loading" data-aos="zoom-in" data-aos-delay="400">
+        <div onAnimationEnd={() => alert("Terminou")}></div>
+      </div>
+    </Container>
   );
 };
 
