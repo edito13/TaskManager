@@ -8,7 +8,6 @@ export const Container = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 1rem;
-  color: #fff;
 
   & > div:first-child {
     display: flex;
@@ -29,6 +28,7 @@ export const Container = styled.div`
     h1 {
       font-weight: 500;
       font-size: 3rem;
+      color: #eee;
     }
   }
 
@@ -42,8 +42,8 @@ export const Container = styled.div`
 
     div {
       height: 100%;
-      background: #8b57f6;
-      animation: loading 5s ease-in-out 0.2s;
+      background: linear-gradient(#8b57f6, #6e44c2);
+      animation: loading 5.5s ease-out 0.6s;
     }
 
     @keyframes loading {

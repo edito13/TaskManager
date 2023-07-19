@@ -8,8 +8,6 @@ const GlobalStyles = createGlobalStyle`
         outline: none;
         font-family: "Roboto Regular";
     }
-
-
     body {
         background: #121215;
     }
