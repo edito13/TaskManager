@@ -14,14 +14,33 @@ export const Container = styled.div`
     align-items: center;
     gap: 0.8rem;
 
-    div {
-      padding: 0.6rem;
+    .checkbox-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      padding: 0.3rem;
       background: #1e1e23;
-      border-radius: 8px;
+      border-radius: 7px;
 
       svg {
-        font-size: 2.6rem;
-        color: #8b57f6;
+        font-size: 2rem;
+
+        .check-icon {
+          fill: none;
+          stroke: #8b57f6;
+          stroke-width: 10;
+          stroke-dasharray: 100;
+          stroke-dashoffset: 100;
+          animation: drawCheck 2s ease-in-out forwards 0.8s;
+        }
+
+        @keyframes drawCheck {
+          to {
+            stroke-dashoffset: 0;
+          }
+        }
       }
     }
 
@@ -42,8 +61,9 @@ export const Container = styled.div`
 
     div {
       height: 100%;
+      border-radius: 40px;
       background: linear-gradient(#8b57f6, #6e44c2);
-      animation: loading 5.5s ease-out 0.6s;
+      animation: loading 5s ease-out 0.9s;
     }
 
     @keyframes loading {
