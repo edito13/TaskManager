@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Button as Btn } from "@mui/material";
 
 export const Container = styled.div`
   height: 100vh;
@@ -15,9 +16,6 @@ export const Container = styled.div`
     gap: 0.8rem;
 
     .checkbox-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
       width: 60px;
       height: 60px;
       padding: 0.3rem;
@@ -26,21 +24,6 @@ export const Container = styled.div`
 
       svg {
         font-size: 2rem;
-
-        .check-icon {
-          fill: none;
-          stroke: #8b57f6;
-          stroke-width: 10;
-          stroke-dasharray: 100;
-          stroke-dashoffset: 100;
-          animation: drawCheck 2s ease-in-out forwards 0.8s;
-        }
-
-        @keyframes drawCheck {
-          to {
-            stroke-dashoffset: 0;
-          }
-        }
       }
     }
 
@@ -74,5 +57,13 @@ export const Container = styled.div`
         width: 100%;
       }
     }
+  }
+`;
+
+export const Button = styled(Btn)`
+  && {
+    background: linear-gradient(#8b57f6, #6e44c2);
+    text-transform: capitalize;
+    font-size: 1.1rem;
   }
 `;

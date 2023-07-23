@@ -10,7 +10,7 @@ interface Props {
 const Index: React.FC<Props> = ({ children, tip }) => {
   return (
     <Tooltip title={<Title>{tip}</Title>} arrow>
-      {children}
+      <span>{children}</span>
     </Tooltip>
   );
 };

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Button } from "@mui/material";
 
 export const Container = styled.div`
   display: flex;
@@ -72,19 +71,12 @@ export const Container = styled.div`
         color: #fff;
       }
     }
-
-    div:nth-child(2) {
-      margin-top: 2rem;
-      text-align: center;
-      color: #fff;
-    }
   }
 `;
 
-export const BtnCreate = styled(Button)`
-  && {
-    background: linear-gradient(#8b57f6, #6e44c2);
-    text-transform: capitalize;
-    font-size: 1.1rem;
-  }
+export const Tasks = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  width: 100%;
 `;

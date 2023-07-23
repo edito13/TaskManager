@@ -4,7 +4,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { Container } from "../styles/styles";
 
-const Home = () => {
+const Initial = () => {
   useEffect(() => {
     AOS.init();
   }, []);
@@ -12,7 +12,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   // Ir para a página de tarefas assim que a animação de loading terminar
-  const handleNavigateToTasks = () => navigate("/tasks");
+  const handleNavigate = () => navigate("/tasks");
 
   return (
     <Container>
@@ -31,10 +31,10 @@ const Home = () => {
         </h1>
       </div>
       <div className="loading" data-aos="zoom-in" data-aos-delay="1200">
-        <div onAnimationEnd={handleNavigateToTasks}></div>
+        <div onAnimationEnd={handleNavigate}></div>
       </div>
     </Container>
   );
 };
 
-export default Home;
+export default Initial;

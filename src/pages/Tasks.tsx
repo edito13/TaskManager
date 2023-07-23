@@ -2,42 +2,15 @@ import { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { FaPlusCircle, FaTasks } from "react-icons/fa";
-import Api from "../api";
-import { BtnCreate, Container } from "../styles/taskStyle";
-import Loading from "../components/Loading/";
+import Tasks from "../components/Tasks";
 import Tooltip from "../components/Tooltip/";
+import { Button } from "../styles/styles";
+import { Container } from "../styles/taskStyle";
 
 const Task = () => {
   useEffect(() => {
     AOS.init();
   }, []);
-
-  useEffect(() => {
-    const getUsers = async () => {
-      const result = await Api.getUsers();
-      console.log(result);
-    };
-
-    getUsers();
-  }, []);
-
-  const [LoadingStatus, setLoadingStatus] = useState<boolean>(true);
-  const [LoadingCounter, setLoadingCounter] = useState<number>(1);
-  const [Tasks, setTasks] = useState([]);
-
-  useEffect(() => {
-    const time = setInterval(
-      () => setLoadingCounter((count) => count + 1),
-      1000
-    );
-
-    return () => clearInterval(time);
-  }, [LoadingStatus]);
-
-  useEffect(() => {
-    if (LoadingCounter >= 2) setLoadingStatus(false);
-    else setLoadingStatus(true);
-  }, [LoadingCounter]);
 
   return (
     <Container>
@@ -62,19 +35,12 @@ const Task = () => {
             Lista das Tarefas
           </h3>
           <Tooltip tip="Adicione uma nova tarefa">
-            <BtnCreate variant="contained" startIcon={<FaPlusCircle />}>
+            <Button variant="contained" startIcon={<FaPlusCircle />}>
               Adicionar Tarefa
-            </BtnCreate>
+            </Button>
           </Tooltip>
         </div>
-        <div>
-          {LoadingStatus ? (
-            <Loading />
-          ) : (
-            <p>Não há nenhuma tarefa ainda, adicione uma.</p>
-          )}
-        </div>
-        {/* {LoadingStatus && <Loading />} */}
+        <Tasks />
       </main>
     </Container>
   );
