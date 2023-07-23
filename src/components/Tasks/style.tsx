@@ -5,6 +5,7 @@ export const Container = styled.div`
   flex-direction: column;
   gap: 1.4rem;
   width: 100%;
+  margin-top: 1.6rem;
 
   div {
     position: relative;
