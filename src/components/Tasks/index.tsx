@@ -1,22 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Container } from "./style";
 import Task from "../Task";
 import { useQuery } from "react-query";
 import Loading from "../Loading";
-
-interface Props {
-  children?: React.ReactNode;
-}
 
 interface Data {
   id: string;
   title: string;
   description: string;
   userId: string;
-  // Outros campos...
 }
 
-const Index: React.FC<Props> = ({ children }) => {
+const Index = () => {
   const [LoadingStatus, setLoadingStatus] = useState<boolean>(true);
   const [LoadingCounter, setLoadingCounter] = useState<number>(1);
   // const [Tasks, setTasks] = useState([]);

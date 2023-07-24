@@ -11,13 +11,16 @@ const TaskActions: React.FC<Props> = ({ id }) => {
   return (
     <div>
       <Tooltip tip="Marcar como feita">
-        <TaskAction icon={FaRegCheckSquare} onClick={() => alert("Marcar")} />
+        <TaskAction
+          icon={FaRegCheckSquare}
+          onClick={() => alert("Marcar " + id)}
+        />
       </Tooltip>
       <Tooltip tip="Editar tarefa">
-        <TaskAction icon={FaEdit} onClick={() => alert("Editar")} />
+        <TaskAction icon={FaEdit} onClick={() => alert("Editar " + id)} />
       </Tooltip>
       <Tooltip tip="Deletar tarefa">
-        <TaskAction icon={FaTrashAlt} onClick={() => alert("Deletar")} />
+        <TaskAction icon={FaTrashAlt} onClick={() => alert("Deletar " + id)} />
       </Tooltip>
     </div>
   );
