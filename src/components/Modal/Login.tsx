@@ -1,27 +1,68 @@
-import { useRef, useState } from "react";
-import { FaPaperPlane, FaPlane, FaUserPlus } from "react-icons/fa";
-import Popover from "../Popover";
+import { FormEvent, useRef } from "react";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+import { FaPaperPlane } from "react-icons/fa";
 import Tooltip from "../Tooltip";
 import { Button } from "../../styles/styles";
-import { ButtonBase } from "@mui/material";
+import { useAuth } from "../../contexts/auth";
+import { fetchAuthToken } from "../../assets/fetchAuthToken";
 
 interface Props {
   changePage: () => void;
+  Load: () => void;
+  onClose: () => void;
+  setAlert: (value: boolean) => void;
 }
 
-const Login: React.FC<Props> = ({ changePage }) => {
+const Login: React.FC<Props> = ({ changePage, Load, onClose, setAlert }) => {
+  const [cookies, setCookie] = useCookies();
+  const navigate = useNavigate();
+
+  const { SetIsAuthenticated } = useAuth();
+
   const emailFill = useRef<HTMLInputElement>(null);
   const passwordFill = useRef<HTMLInputElement>(null);
 
-  const [anchorEl, setAnchorEl] = useState(false);
+  const Signin = async (e: FormEvent) => {
+    e.preventDefault();
 
-  // Desactivar Popover
-  const handleClosePop = () => setAnchorEl(false);
+    const email = emailFill.current?.value;
+    const password = passwordFill.current?.value;
+
+    try {
+      if (!email) throw "Preencha o email correctamente.";
+      else if (!password) throw "Preencha a senha correctamente.";
+
+      const options = {
+        url: "user/signin",
+        credentials: {
+          email,
+          password,
+        },
+      };
+
+      const token = await fetchAuthToken(options);
+
+      if (token) {
+        setCookie("token", token, { path: "/" });
+        setAlert(true);
+        Load();
+        setTimeout(() => {
+          setAlert(false);
+          SetIsAuthenticated(true);
+          navigate("/tasks");
+          onClose();
+        }, 990);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   return (
     <main>
       <h4>Fazer login</h4>
-      <form onSubmit={() => alert("Iniciando sessão")}>
+      <form onSubmit={Signin}>
         <div>
           <label htmlFor="email">Email</label>
           <input id="email" ref={emailFill} placeholder="exemplo@gmail.com" />
@@ -45,11 +86,6 @@ const Login: React.FC<Props> = ({ changePage }) => {
           Ainda não tem uma conta? <span onClick={changePage}>Criar conta</span>
         </p>
       </form>
-      <Popover
-        open={anchorEl}
-        onClose={handleClosePop}
-        msg="Login feito com sucesso"
-      />
     </main>
   );
 };

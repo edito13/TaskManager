@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Login from "./Login";
 import Loading from "../Loading";
+import Popover from "../Popover";
 import Register from "./Register";
 import { Container, MainModal } from "./style";
 
@@ -13,6 +14,11 @@ const Index: React.FC<Props> = ({ open, onClose }) => {
   const [LoadingCounter, setLoadingCounter] = useState(1);
   const [LoadingStatus, setLoadingStatus] = useState(false);
   const [IsLoginActive, setIsLoginActive] = useState(true);
+
+  const [anchorEl, setAnchorEl] = useState(false);
+
+  // Desactivar Popover
+  const handleClosePop = () => setAnchorEl(false);
 
   useEffect(() => {
     const time = setInterval(
@@ -39,11 +45,26 @@ const Index: React.FC<Props> = ({ open, onClose }) => {
         {LoadingStatus ? (
           <Loading />
         ) : IsLoginActive ? (
-          <Login changePage={ChangePage} />
+          <Login
+            changePage={ChangePage}
+            Load={() => setLoadingStatus(true)}
+            setAlert={(value) => setAnchorEl(value)}
+            onClose={onClose}
+          />
         ) : (
-          <Register changePage={ChangePage} />
+          <Register
+            changePage={ChangePage}
+            Load={() => setLoadingStatus(true)}
+            setAlert={(value) => setAnchorEl(value)}
+            onClose={onClose}
+          />
         )}
       </Container>
+      <Popover
+        open={anchorEl}
+        onClose={handleClosePop}
+        msg={`${IsLoginActive ? "Login feito" : "Conta criada"} com sucesso`}
+      />
     </MainModal>
   );
 };

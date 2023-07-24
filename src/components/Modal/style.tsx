@@ -61,12 +61,12 @@ export const Container = styled.div`
         input {
           border: none;
           border-radius: 4px;
-          padding: 5px 7px;
+          padding: 7px 9px;
           font-size: 1.2rem;
           width: 100%;
 
           &::placeholder {
-            font-size: 1rem;
+            font-size: 0.9rem;
           }
         }
       }
