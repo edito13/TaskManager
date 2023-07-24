@@ -1,18 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Container } from "../styles/styles";
+import Modal from "../components/Modal";
 
 const Initial = () => {
   useEffect(() => {
     AOS.init();
   }, []);
 
+  const [IsOpenModal, setIsOpenModal] = useState(false);
+
   const navigate = useNavigate();
 
   // Ir para a página de tarefas assim que a animação de loading terminar
-  const handleNavigate = () => navigate("/tasks");
+  const handleNavigate = () => setIsOpenModal(true);
 
   return (
     <Container>
@@ -33,6 +36,9 @@ const Initial = () => {
       <div className="loading" data-aos="zoom-in" data-aos-delay="1200">
         <div onAnimationEnd={handleNavigate}></div>
       </div>
+      {IsOpenModal && (
+        <Modal open={IsOpenModal} onClose={() => setIsOpenModal(false)} />
+      )}
     </Container>
   );
 };

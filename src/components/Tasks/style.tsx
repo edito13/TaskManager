@@ -47,7 +47,7 @@ export const Container = styled.div`
 
       svg {
         font-size: 1.2rem;
-        color: rgb(153, 102, 255);
+        color: #9966ff;
       }
     }
 
