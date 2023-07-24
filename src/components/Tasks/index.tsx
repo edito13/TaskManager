@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "./style";
 import Task from "../Task";
+import { useQuery } from "react-query";
+import Loading from "../Loading";
 
 interface Props {
   children?: React.ReactNode;
+}
+
+interface Data {
+  id: string;
+  title: string;
+  description: string;
+  userId: string;
+  // Outros campos...
 }
 
 const Index: React.FC<Props> = ({ children }) => {
@@ -24,12 +34,26 @@ const Index: React.FC<Props> = ({ children }) => {
     if (LoadingCounter >= 2) setLoadingStatus(false);
     else setLoadingStatus(true);
   }, [LoadingCounter]);
+
+  const fetchPaginatedData = async (): Promise<Data[]> => {
+    const response = await fetch("http://localhost:8000/task/");
+    const data = await response.json();
+    return data;
+  };
+
+  const { data, isLoading, isError } = useQuery<Data[], Error>("data", () =>
+    fetchPaginatedData()
+  );
+
+  if (isLoading) return <Loading />;
+
+  if (isError) return <div>Error fetching data</div>;
+
   return (
     <Container>
-      <Task delay={100} />
-      <Task delay={200} />
-      <Task delay={300} />
-      <Task delay={400} />
+      {data?.map((task, index) => (
+        <Task key={task.id} data={task} delay={(index + 1) * 100} />
+      ))}
     </Container>
   );
 };

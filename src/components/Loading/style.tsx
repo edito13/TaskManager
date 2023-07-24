@@ -10,6 +10,7 @@ export const Container = styled.div`
 
   p {
     font-size: 1rem;
+    color: #fff;
   }
 `;
 

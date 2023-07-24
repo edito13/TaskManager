@@ -5,7 +5,7 @@ import TaskActions from "./TaskActions";
 import TaskContent from "./TaskContent";
 
 interface Props {
-  data?: {
+  data: {
     id: string;
     title: string;
     description: string;
@@ -20,11 +20,8 @@ const Index: React.FC<Props> = ({ data, delay }) => {
 
   return (
     <div data-aos="zoom-in-right" data-aos-delay={`${delay}`}>
-      <TaskContent
-        title="Lavar a Loiça"
-        description="ddddnndnddndnndndnddndndn"
-      />
-      <TaskActions id="haahah" />
+      <TaskContent title={data.title} description={data.description} />
+      <TaskActions id={data.id} />
     </div>
   );
 };
