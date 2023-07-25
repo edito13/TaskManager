@@ -62,7 +62,7 @@ export const Container = styled.div`
           border: none;
           border-radius: 4px;
           padding: 7px 9px;
-          font-size: 1.2rem;
+          font-size: 1rem;
           width: 100%;
 
           &::placeholder {

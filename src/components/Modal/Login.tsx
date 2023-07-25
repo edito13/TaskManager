@@ -65,11 +65,17 @@ const Login: React.FC<Props> = ({ changePage, Load, onClose, setAlert }) => {
       <form onSubmit={Signin}>
         <div>
           <label htmlFor="email">Email</label>
-          <input id="email" ref={emailFill} placeholder="exemplo@gmail.com" />
+          <input
+            type="email"
+            id="email"
+            ref={emailFill}
+            placeholder="exemplo@gmail.com"
+            required
+          />
         </div>
         <div>
           <label htmlFor="password">Senha</label>
-          <input type="password" id="password" ref={passwordFill} />
+          <input type="password" id="password" ref={passwordFill} required />
         </div>
         <div>
           <Tooltip tip="Criar a sua conta">

@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
+  height: 100vh;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   gap: 3rem;
-  padding: 2rem;
+  padding: 2rem 2rem 0;
 
   & > div:first-child {
     display: flex;
@@ -52,6 +52,7 @@ export const Container = styled.div`
 
   main {
     width: 100%;
+    height: 100%;
     max-width: 600px;
 
     & > div:first-child {

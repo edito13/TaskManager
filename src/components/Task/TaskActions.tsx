@@ -1,42 +1,35 @@
-import React from "react";
-import TaskAction from "./TaskAction";
-import Tooltip from "../Tooltip";
-import { FaEdit, FaRegCheckSquare, FaTrashAlt } from "react-icons/fa";
-import { useQueryClient, useMutation } from "react-query";
+import React, { useState } from "react";
+import { useCookies } from "react-cookie";
+import { useDispatch } from "react-redux";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Api from "../../api";
+import Tooltip from "../Tooltip";
+import TaskAction from "./TaskAction";
+import { addTasks } from "../../store/Tasks/tasks.reducer";
+import ModalEditTask from "../ModalEditTask";
+import ModalLoadingDelete from "../ModalLoadingDelete";
 
 interface Props {
-  id: string;
+  data: Tasks;
 }
 
-interface Task {
-  title: string;
-  description: string;
-  completed?: boolean;
-}
+const TaskActions: React.FC<Props> = ({ data }) => {
+  const [cookies] = useCookies(["token"]);
+  const token = cookies.token as string;
+  const { id } = data;
 
-interface Data {
-  tasks: Task[];
-  totalPages: number;
-}
+  const [IsOpenEditModal, setIsOpenEditModal] = useState(false);
+  const [IsOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
 
-const deleteTask = async (id: string): Promise<Data> => {
-  const data = await Api.deleteTask(id);
-  return data;
-};
-
-const TaskActions: React.FC<Props> = ({ id }) => {
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation(deleteTask, {
-    onSuccess: (data) => {
-      queryClient.setQueryData("data", data);
-    },
-  });
+  const dispatch = useDispatch();
 
   const DeleteTask = async () => {
     try {
-      mutation.mutate(id);
+      const data = await Api.deleteTask({ id, token });
+      if (data) {
+        setIsOpenDeleteModal(true);
+        setTimeout(() => dispatch(addTasks(data)), 1000);
+      }
     } catch (error) {
       alert(error);
     }
@@ -44,18 +37,25 @@ const TaskActions: React.FC<Props> = ({ id }) => {
 
   return (
     <div>
-      <Tooltip tip="Marcar como feita">
-        <TaskAction
-          icon={FaRegCheckSquare}
-          onClick={() => alert("Marcar " + id)}
-        />
-      </Tooltip>
       <Tooltip tip="Editar tarefa">
-        <TaskAction icon={FaEdit} onClick={() => alert("Editar " + id)} />
+        <TaskAction icon={FaEdit} onClick={() => setIsOpenEditModal(true)} />
       </Tooltip>
       <Tooltip tip="Deletar tarefa">
         <TaskAction icon={FaTrashAlt} onClick={DeleteTask} />
       </Tooltip>
+      {IsOpenEditModal && (
+        <ModalEditTask
+          task={data}
+          open={IsOpenEditModal}
+          onClose={() => setIsOpenEditModal(false)}
+        />
+      )}
+      {IsOpenDeleteModal && (
+        <ModalLoadingDelete
+          open={IsOpenDeleteModal}
+          onClose={() => setIsOpenDeleteModal(false)}
+        />
+      )}
     </div>
   );
 };

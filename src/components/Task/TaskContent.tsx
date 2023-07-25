@@ -5,15 +5,12 @@ interface Props {
   description: string;
 }
 
-const TaskContent: React.FC<Props> = ({
-  title: Title,
-  description: Description,
-}) => {
+const TaskContent: React.FC<Props> = ({ title, description }) => {
   return (
-    <>
-      <h4>{Title}</h4>
-      <p>{Description}</p>
-    </>
+    <span>
+      <h4>{title}</h4>
+      <p>{description}</p>
+    </span>
   );
 };
 

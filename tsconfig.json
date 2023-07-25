@@ -20,6 +20,10 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "../vipcoin back-end/copy.ts"],
+  "include": [
+    "src",
+    "../vipcoin back-end/copy.ts",
+    "../vipcoin back-end/index.tsx"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

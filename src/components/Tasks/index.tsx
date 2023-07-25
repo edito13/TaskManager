@@ -1,53 +1,50 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useQuery } from "react-query";
+import React, { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import Task from "../Task";
 import Loading from "../Loading";
 import { Container } from "./style";
 import { Pagination } from "./style";
-
-interface Task {
-  id: string;
-  title: string;
-  description: string;
-  userId: string;
-}
-
-interface Data {
-  tasks: Task[];
-  totalPages: number;
-}
+import Api from "../../api";
+import { useSelector } from "react-redux";
+import { addTasks, selectAllTasks } from "../../store/Tasks/tasks.reducer";
+import { useDispatch } from "react-redux";
 
 const Index = () => {
   const [Page, setPage] = useState(1);
+  const [cookies] = useCookies(["token"]);
 
   const limit = 4;
 
-  const fetchPaginatedData = async (): Promise<Data> => {
-    const response = await axios(
-      `http://localhost:8000/task?page=${Page}&limit=${limit}`
-    );
-    const data = response.data;
-    console.log(data);
-    return data;
-  };
+  const dispatch = useDispatch();
 
-  const { data, isLoading, isError } = useQuery<Data, Error>(
-    ["data", Page],
-    () => fetchPaginatedData()
-  );
+  const { tasks, totalPages } = useSelector(selectAllTasks);
+  const [IsLoading, setIsLoading] = useState(tasks.length ? false : true);
 
-  if (isLoading) return <Loading />;
+  useEffect(() => {
+    const fetchPaginatedData = async () => {
+      const data = await Api.getTasks({ token: cookies.token, Page, limit });
+      dispatch(addTasks(data));
+      setIsLoading(false);
+    };
 
-  if (isError) return <div>Error fetching data</div>;
+    fetchPaginatedData();
+  }, [Page]);
+
+  if (IsLoading) return <Loading />;
 
   return (
     <Container>
-      {data?.tasks.map((task, index) => (
-        <Task key={task.id} data={task} delay={(index + 1) * 100} />
-      ))}
+      <div>
+        {tasks.length ? (
+          tasks.map((task, index) => (
+            <Task key={task.id} data={task} delay={(index + 1) * 100} />
+          ))
+        ) : (
+          <p>Não há nenhuma tarefa cadastrada ainda.</p>
+        )}
+      </div>
       <Pagination
-        count={data?.totalPages}
+        count={totalPages}
         page={Page}
         onChange={(event, value) => setPage(value)}
       />

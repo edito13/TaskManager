@@ -79,16 +79,23 @@ const Register: React.FC<Props> = ({ changePage, Load, onClose, setAlert }) => {
             id="name"
             ref={nameFill}
             placeholder="Nome completo"
+            required
           />
         </div>
         <div>
           <label htmlFor="email">Email</label>
-          <input id="email" ref={emailFill} placeholder="exemplo@gmail.com" />
+          <input
+            type="email"
+            id="email"
+            ref={emailFill}
+            placeholder="exemplo@gmail.com"
+            required
+          />
         </div>
         <div className="passwords">
           <div>
             <label htmlFor="password">Senha</label>
-            <input type="password" id="password" ref={passwordFill} />
+            <input type="password" id="password" ref={passwordFill} required />
           </div>
           <div>
             <label htmlFor="confirmPassword">Confirmar Senha</label>
@@ -96,6 +103,7 @@ const Register: React.FC<Props> = ({ changePage, Load, onClose, setAlert }) => {
               type="password"
               id="confirmPassword"
               ref={confirmPasswordFill}
+              required
             />
           </div>
         </div>

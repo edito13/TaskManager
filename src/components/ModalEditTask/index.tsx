@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
+import { useDispatch } from "react-redux";
 import { ButtonBase } from "@mui/material";
 import { FaPlusCircle } from "react-icons/fa";
 import Loading from "../Loading";
@@ -8,17 +9,27 @@ import Popover from "../Popover";
 import { Button } from "../../styles/styles";
 import { Container, MainModal } from "./style";
 import Api from "../../api";
-import { useDispatch } from "react-redux";
 import { addTasks } from "../../store/Tasks/tasks.reducer";
 
 interface Props {
+  task: Task;
   open: boolean;
   onClose: () => void;
 }
 
-const Index: React.FC<Props> = ({ open, onClose }) => {
+interface Task {
+  id: string;
+  title: string;
+  description: string;
+  completed?: boolean;
+}
+
+const Index: React.FC<Props> = ({ task, open, onClose }) => {
   const [cookies] = useCookies(["token"]);
-  const token = cookies.token as string;
+  const { token } = cookies;
+  const { id } = task;
+
+  const dispatch = useDispatch();
 
   const [anchorEl, setAnchorEl] = useState(false);
   const [LoadingStatus, setLoadingStatus] = useState(false);
@@ -26,8 +37,6 @@ const Index: React.FC<Props> = ({ open, onClose }) => {
 
   const titleFill = useRef<HTMLInputElement>(null);
   const descriptionFill = useRef<HTMLTextAreaElement>(null);
-
-  const dispatch = useDispatch();
 
   // Desactivar Popover
   const handleClosePop = () => setAnchorEl(false);
@@ -46,7 +55,7 @@ const Index: React.FC<Props> = ({ open, onClose }) => {
     else setLoadingStatus(false);
   }, [LoadingCounter]);
 
-  const AddTask = async (e: FormEvent) => {
+  const EditTask = async (e: FormEvent) => {
     e.preventDefault();
 
     const title = titleFill.current?.value;
@@ -56,14 +65,14 @@ const Index: React.FC<Props> = ({ open, onClose }) => {
       if (!title) throw "O título não pode estar vazio";
       else if (!description) throw "A descrição não pode estar vazia";
 
-      const data = await Api.createTask({
+      const data = await Api.editTask({
+        id,
         title,
         token,
         description,
       });
 
       dispatch(addTasks(data));
-
       setAnchorEl(true);
       setLoadingStatus(true);
       setTimeout(() => {
@@ -71,7 +80,7 @@ const Index: React.FC<Props> = ({ open, onClose }) => {
         onClose();
       }, 990);
     } catch (error) {
-      alert(error);
+      console.log(error);
     }
   };
 
@@ -82,13 +91,14 @@ const Index: React.FC<Props> = ({ open, onClose }) => {
           <Loading />
         ) : (
           <main>
-            <h4>Adicionar Tarefa</h4>
-            <form onSubmit={AddTask}>
+            <h4>Editar Tarefa</h4>
+            <form onSubmit={EditTask}>
               <div>
                 <label htmlFor="title">Título</label>
                 <input
                   id="title"
                   ref={titleFill}
+                  defaultValue={task.title}
                   placeholder="Título da tarefa"
                 />
               </div>
@@ -97,6 +107,7 @@ const Index: React.FC<Props> = ({ open, onClose }) => {
                 <textarea
                   id="description"
                   ref={descriptionFill}
+                  defaultValue={task.description}
                   placeholder="Escreva alguma coisa..."
                 />
               </div>
@@ -107,7 +118,7 @@ const Index: React.FC<Props> = ({ open, onClose }) => {
                     variant="contained"
                     startIcon={<FaPlusCircle />}
                   >
-                    Adicionar Tarefa
+                    Editar Tarefa
                   </Button>
                 </Tooltip>
                 <ButtonBase className="btn-cancelar" onClick={onClose}>
@@ -121,7 +132,7 @@ const Index: React.FC<Props> = ({ open, onClose }) => {
       <Popover
         open={anchorEl}
         onClose={handleClosePop}
-        msg={"Tarefa criada com sucesso"}
+        msg={"Tarefa editada com sucesso"}
       />
     </MainModal>
   );
