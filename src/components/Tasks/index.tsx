@@ -46,7 +46,7 @@ const Index = () => {
       <Pagination
         count={totalPages}
         page={Page}
-        onChange={(event, value) => setPage(value)}
+        onChange={(_, value) => setPage(value)}
       />
     </Container>
   );
