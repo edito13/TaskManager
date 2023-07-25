@@ -1,20 +1,29 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "./style";
 import Task from "../Task";
 import { useQuery } from "react-query";
 import Loading from "../Loading";
+import { Pagination } from "./style";
+import axios from "axios";
 
-interface Data {
+interface Task {
   id: string;
   title: string;
   description: string;
   userId: string;
 }
 
+interface Data {
+  tasks: Task[];
+  totalPages: number;
+}
+
 const Index = () => {
+  const [Page, setPage] = useState(1);
   const [LoadingStatus, setLoadingStatus] = useState<boolean>(true);
   const [LoadingCounter, setLoadingCounter] = useState<number>(1);
-  // const [Tasks, setTasks] = useState([]);
+
+  const limit = 4;
 
   useEffect(() => {
     const time = setInterval(
@@ -30,14 +39,18 @@ const Index = () => {
     else setLoadingStatus(true);
   }, [LoadingCounter]);
 
-  const fetchPaginatedData = async (): Promise<Data[]> => {
-    const response = await fetch("http://localhost:8000/task/");
-    const data = await response.json();
+  const fetchPaginatedData = async (): Promise<Data> => {
+    const response = await axios(
+      `http://localhost:8000/task?page=${Page}&limit=${limit}`
+    );
+    const data = response.data;
+    console.log(data);
     return data;
   };
 
-  const { data, isLoading, isError } = useQuery<Data[], Error>("data", () =>
-    fetchPaginatedData()
+  const { data, isLoading, isError } = useQuery<Data, Error>(
+    ["data", Page],
+    () => fetchPaginatedData()
   );
 
   if (isLoading) return <Loading />;
@@ -46,9 +59,14 @@ const Index = () => {
 
   return (
     <Container>
-      {data?.map((task, index) => (
+      {data?.tasks.map((task, index) => (
         <Task key={task.id} data={task} delay={(index + 1) * 100} />
       ))}
+      <Pagination
+        count={data?.totalPages}
+        page={Page}
+        onChange={(event, value) => setPage(value)}
+      />
     </Container>
   );
 };

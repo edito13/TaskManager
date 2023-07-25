@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import App from "./App.tsx";
 import GlobalStyles from "./styles/GlobalStyles.tsx";
 import AuthProvider from "./components/AuthProvider.tsx";
+import "./styles/style.css";
 
 const queryClient = new QueryClient();
 

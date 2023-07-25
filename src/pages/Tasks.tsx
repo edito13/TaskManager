@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { FaPlusCircle, FaTasks } from "react-icons/fa";
 import Tasks from "../components/Tasks";
 import Tooltip from "../components/Tooltip/";
+import ModalAddTask from "../components/ModalAddTask/";
 import { Button } from "../styles/styles";
 import { Container } from "../styles/taskStyle";
 
@@ -11,6 +12,8 @@ const Task = () => {
   useEffect(() => {
     AOS.init();
   }, []);
+
+  const [IsOpenModal, setIsOpenModal] = useState(false);
 
   return (
     <Container>
@@ -35,13 +38,23 @@ const Task = () => {
             Lista das Tarefas
           </h3>
           <Tooltip tip="Adicione uma nova tarefa">
-            <Button variant="contained" startIcon={<FaPlusCircle />}>
+            <Button
+              variant="contained"
+              startIcon={<FaPlusCircle />}
+              onClick={() => setIsOpenModal(true)}
+            >
               Adicionar Tarefa
             </Button>
           </Tooltip>
         </div>
         <Tasks />
       </main>
+      {IsOpenModal && (
+        <ModalAddTask
+          open={IsOpenModal}
+          onClose={() => setIsOpenModal(false)}
+        />
+      )}
     </Container>
   );
 };

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Pagination as PaginationComponent } from "@mui/material";
 
 export const Container = styled.div`
   display: flex;
@@ -37,7 +38,7 @@ export const Container = styled.div`
       position: absolute;
       display: flex;
       align-items: center;
-      gap: 0.3rem;
+      gap: 0.5rem;
       right: 8px;
       bottom: -9px;
       background: #292930;
@@ -58,6 +59,18 @@ export const Container = styled.div`
       div {
         background: #1c1c20;
       }
+    }
+  }
+`;
+
+export const Pagination = styled(PaginationComponent)`
+  && {
+    margin: auto;
+
+    * {
+      color: #fff;
+      font-size: 1rem;
+      padding: 0.3rem;
     }
   }
 `;
