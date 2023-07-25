@@ -8,6 +8,7 @@ import { Container, MainModal } from "./style";
 import { ButtonBase } from "@mui/material";
 import { useQueryClient, useMutation } from "react-query";
 import Api from "../../api";
+import axios from "axios";
 
 interface Props {
   open: boolean;
@@ -26,7 +27,11 @@ interface Data {
 }
 
 const createTask = async ({ title, description }: Task): Promise<Data> => {
-  const data = await Api.createTask({ title, description });
+  const response = await axios.post("http://localhost:8000/task", {
+    title,
+    description,
+  });
+  const data = response.data;
   return data;
 };
 

@@ -4,7 +4,6 @@ import Tooltip from "../Tooltip";
 import { FaEdit, FaRegCheckSquare, FaTrashAlt } from "react-icons/fa";
 import { useQueryClient, useMutation } from "react-query";
 import Api from "../../api";
-import axios from "axios";
 
 interface Props {
   id: string;
@@ -22,8 +21,7 @@ interface Data {
 }
 
 const deleteTask = async (id: string): Promise<Data> => {
-  const response = await axios.delete(`http://localhost:8000/task/${id}`);
-  const data = response.data;
+  const data = await Api.deleteTask(id);
   return data;
 };
 

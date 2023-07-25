@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Container } from "./style";
-import Task from "../Task";
-import { useQuery } from "react-query";
-import Loading from "../Loading";
-import { Pagination } from "./style";
+import React, { useState } from "react";
 import axios from "axios";
+import { useQuery } from "react-query";
+import Task from "../Task";
+import Loading from "../Loading";
+import { Container } from "./style";
+import { Pagination } from "./style";
 
 interface Task {
   id: string;
@@ -20,24 +20,8 @@ interface Data {
 
 const Index = () => {
   const [Page, setPage] = useState(1);
-  const [LoadingStatus, setLoadingStatus] = useState<boolean>(true);
-  const [LoadingCounter, setLoadingCounter] = useState<number>(1);
 
   const limit = 4;
-
-  useEffect(() => {
-    const time = setInterval(
-      () => setLoadingCounter((count) => count + 1),
-      1000
-    );
-
-    return () => clearInterval(time);
-  }, [LoadingStatus]);
-
-  useEffect(() => {
-    if (LoadingCounter >= 2) setLoadingStatus(false);
-    else setLoadingStatus(true);
-  }, [LoadingCounter]);
 
   const fetchPaginatedData = async (): Promise<Data> => {
     const response = await axios(
