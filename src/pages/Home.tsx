@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Container } from "../styles/styles";
@@ -11,8 +10,6 @@ const Initial = () => {
   }, []);
 
   const [IsOpenModal, setIsOpenModal] = useState(false);
-
-  const navigate = useNavigate();
 
   // Ir para a página de tarefas assim que a animação de loading terminar
   const handleNavigate = () => setIsOpenModal(true);

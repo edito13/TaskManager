@@ -15,7 +15,7 @@ interface Props {
 }
 
 const Register: React.FC<Props> = ({ changePage, Load, onClose, setAlert }) => {
-  const [cookies, setCookie] = useCookies();
+  const [, setCookie] = useCookies();
   const navigate = useNavigate();
 
   const { SetIsAuthenticated } = useAuth();

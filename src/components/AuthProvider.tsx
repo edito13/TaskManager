@@ -7,7 +7,7 @@ interface Props {
 }
 
 const AuthProvider: React.FC<Props> = ({ children }) => {
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [cookies] = useCookies(["token"]);
   const [isAuthenticated, setIsAuthenticated] = useState(!!cookies.token);
 
   const SetIsAuthenticated = useCallback(
