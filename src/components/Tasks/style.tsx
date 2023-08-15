@@ -40,7 +40,7 @@ export const Container = styled.div`
       p {
         font-size: 0.9rem;
         color: #ccc;
-        max-width: 100%;
+        max-width: 80%;
         display: -webkit-box;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;

@@ -1,6 +1,6 @@
 import React, { ElementType, ReactNode } from "react";
 import { ButtonProps } from "@mui/material";
-import { Button as ButtonDefault } from "../styles/styles";
+import { Button as ButtonDefault } from "../pages/Home/style";
 
 interface ButtonPropsI extends ButtonProps {
   icon: ElementType;

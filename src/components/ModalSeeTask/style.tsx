@@ -37,13 +37,13 @@ export const Container = styled.div`
         &::after {
           content: "";
           display: block;
-          height: 19px;
-          width: 19px;
+          height: 16px;
+          width: 16px;
           border-radius: 4px;
           background: #8b57f6;
           position: absolute;
           z-index: -1;
-          left: -10px;
+          right: -8px;
           bottom: 0px;
         }
       }
@@ -51,6 +51,7 @@ export const Container = styled.div`
       p {
         color: #fff;
         font-weight: 100;
+        line-height: 1.4rem;
       }
     }
 
