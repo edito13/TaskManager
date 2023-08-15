@@ -5,7 +5,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Home from "./pages/Home";
-import Tasks from "./pages/Tasks";
+import Tasks from "./pages/Task";
 import useAuth from "./hooks/useAuth";
 
 const Routers = () => {

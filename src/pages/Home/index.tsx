@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import useAuth from "../hooks/useAuth";
-import Modal from "../components/Modal";
+import { Container } from "./style";
+import useAuth from "../../hooks/useAuth";
+import Modal from "../../components/Modal";
 import { useNavigate } from "react-router-dom";
-import { Container } from "../styles/styles";
 
-const Initial = () => {
+const Index = () => {
   useEffect(() => {
     AOS.init();
   }, []);
@@ -48,4 +48,4 @@ const Initial = () => {
   );
 };
 
-export default Initial;
+export default Index;

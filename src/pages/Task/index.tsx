@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { Container } from "./style";
+import { Button } from "../Home/style";
+import Tasks from "../../components/Tasks";
+import Tooltip from "../../components/Tooltip/";
 import { FaPlusCircle, FaTasks } from "react-icons/fa";
-import Tasks from "../components/Tasks";
-import Tooltip from "../components/Tooltip/";
-import ModalAddTask from "../components/ModalAddTask/";
-import { Button } from "../styles/styles";
-import { Container } from "../styles/taskStyle";
+import ModalAddTask from "../../components/ModalAddTask/";
 
 const Task = () => {
   useEffect(() => {
