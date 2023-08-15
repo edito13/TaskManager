@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-const AuthContext = createContext<AuthContextI>({
+const AuthContext = createContext<AuthContext>({
   isAuthenticated: false,
   SetIsAuthenticated: () => {},
 });

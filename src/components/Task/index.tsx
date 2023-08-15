@@ -5,7 +5,7 @@ import TaskActions from "./TaskActions";
 import TaskContent from "./TaskContent";
 
 interface Props {
-  task: Tasks;
+  task: Task;
   delay: number;
 }
 

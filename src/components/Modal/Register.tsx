@@ -1,5 +1,4 @@
 import { useRef, FormEvent } from "react";
-import axios from "axios";
 import Button from "../Button";
 import Tooltip from "../Tooltip";
 import useAuth from "../../hooks/useAuth";
