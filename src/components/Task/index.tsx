@@ -5,11 +5,11 @@ import TaskActions from "./TaskActions";
 import TaskContent from "./TaskContent";
 
 interface Props {
-  data: Tasks;
+  task: Tasks;
   delay: number;
 }
 
-const Index: React.FC<Props> = ({ data, delay }) => {
+const Index: React.FC<Props> = ({ task, delay }) => {
   useEffect(() => {
     AOS.init();
   }, []);
@@ -17,8 +17,8 @@ const Index: React.FC<Props> = ({ data, delay }) => {
   return (
     <>
       <div data-aos="zoom-in-right" data-aos-delay={`${delay}`}>
-        <TaskContent title={data.title} description={data.description} />
-        <TaskActions data={data} />
+        <TaskContent title={task.title} description={task.description} />
+        <TaskActions task={task} />
       </div>
     </>
   );

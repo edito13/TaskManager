@@ -1,20 +1,27 @@
 import { useRef, FormEvent } from "react";
-import { FaUserPlus } from "react-icons/fa";
+import axios from "axios";
+import Button from "../Button";
 import Tooltip from "../Tooltip";
-import { Button } from "../../styles/styles";
-import { ButtonBase } from "@mui/material";
+import useAuth from "../../hooks/useAuth";
 import { useCookies } from "react-cookie";
+import { ButtonBase } from "@mui/material";
+import { FaUserPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/auth";
+import Api from "../../services/api";
 
-interface Props {
+interface RegistrerProps {
   changePage: () => void;
   Load: () => void;
   onClose: () => void;
   setAlert: (value: boolean) => void;
 }
 
-const Register: React.FC<Props> = ({ changePage, Load, onClose, setAlert }) => {
+const Register: React.FC<RegistrerProps> = ({
+  changePage,
+  Load,
+  onClose,
+  setAlert,
+}) => {
   const [, setCookie] = useCookies();
   const navigate = useNavigate();
 
@@ -42,15 +49,13 @@ const Register: React.FC<Props> = ({ changePage, Load, onClose, setAlert }) => {
       else if (password !== confirmPassword)
         throw "As senhas são diferentes, use mesma senha.";
 
-      const result = await fetch("http://localhost:8000/user/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Define o tipo de conteúdo como JSON
-        },
-        body: JSON.stringify({ name, email, password }),
+      const response = await Api.createUser({
+        name,
+        email,
+        password,
       });
 
-      const { token } = await result.json();
+      const { token } = await response.data;
 
       if (token) {
         setCookie("token", token, { path: "/" });
@@ -109,13 +114,7 @@ const Register: React.FC<Props> = ({ changePage, Load, onClose, setAlert }) => {
         </div>
         <div>
           <Tooltip tip="Criar a sua conta">
-            <Button
-              type="submit"
-              variant="contained"
-              startIcon={<FaUserPlus />}
-            >
-              Criar Conta
-            </Button>
+            <Button icon={FaUserPlus}>Criar Conta</Button>
           </Tooltip>
           <ButtonBase className="btn-cancelar" onClick={onClose}>
             Cancelar

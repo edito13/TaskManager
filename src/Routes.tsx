@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import Home from "./pages/Home";
 import Tasks from "./pages/Tasks";
-import { useAuth } from "./contexts/auth";
+import useAuth from "./hooks/useAuth";
 
 const Routers = () => {
   const { isAuthenticated } = useAuth();

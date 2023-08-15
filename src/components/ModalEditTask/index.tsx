@@ -1,59 +1,47 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
-import { useDispatch } from "react-redux";
 import { ButtonBase } from "@mui/material";
 import { FaPlusCircle } from "react-icons/fa";
+import Button from "../Button";
 import Loading from "../Loading";
 import Tooltip from "../Tooltip";
 import Popover from "../Popover";
-import { Button } from "../../styles/styles";
+import Api from "../../services/api";
 import { Container, MainModal } from "./style";
-import Api from "../../api";
-import { addTasks } from "../../store/Tasks/tasks.reducer";
+import useLoading from "../../hooks/useLoading";
+import { useMutation, useQueryClient } from "react-query";
 
-interface Props {
+interface ModalProps {
   task: Task;
   open: boolean;
   onClose: () => void;
 }
 
-interface Task {
-  id: string;
-  title: string;
-  description: string;
-  completed?: boolean;
-}
-
-const Index: React.FC<Props> = ({ task, open, onClose }) => {
+const Index: React.FC<ModalProps> = ({ task, open, onClose }) => {
   const [cookies] = useCookies(["token"]);
-  const { token } = cookies;
-  const { id } = task;
-
-  const dispatch = useDispatch();
-
+  const { isLoading, setLoading } = useLoading();
   const [anchorEl, setAnchorEl] = useState(false);
-  const [LoadingStatus, setLoadingStatus] = useState(false);
-  const [LoadingCounter, setLoadingCounter] = useState(1);
-
   const titleFill = useRef<HTMLInputElement>(null);
   const descriptionFill = useRef<HTMLTextAreaElement>(null);
+  const queryClient = useQueryClient();
+
+  const { id } = task;
+  const { token } = cookies;
+
+  const mutation = useMutation(
+    (data: editTask) => {
+      const response = Api.editTask(data);
+      return response;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("data");
+      },
+    }
+  );
 
   // Desactivar Popover
   const handleClosePop = () => setAnchorEl(false);
-
-  useEffect(() => {
-    const time = setInterval(
-      () => setLoadingCounter((count) => count + 1),
-      1000
-    );
-
-    return () => clearInterval(time);
-  }, [LoadingStatus]);
-
-  useEffect(() => {
-    if (LoadingCounter <= 1) setLoadingStatus(true);
-    else setLoadingStatus(false);
-  }, [LoadingCounter]);
 
   const EditTask = async (e: FormEvent) => {
     e.preventDefault();
@@ -65,16 +53,10 @@ const Index: React.FC<Props> = ({ task, open, onClose }) => {
       if (!title) throw "O título não pode estar vazio";
       else if (!description) throw "A descrição não pode estar vazia";
 
-      const data = await Api.editTask({
-        id,
-        title,
-        token,
-        description,
-      });
+      mutation.mutate({ id, description, title, token });
 
-      dispatch(addTasks(data));
       setAnchorEl(true);
-      setLoadingStatus(true);
+      setLoading(true);
       setTimeout(() => {
         setAnchorEl(false);
         onClose();
@@ -87,7 +69,7 @@ const Index: React.FC<Props> = ({ task, open, onClose }) => {
   return (
     <MainModal open={open}>
       <Container>
-        {LoadingStatus ? (
+        {isLoading ? (
           <Loading />
         ) : (
           <main>
@@ -113,13 +95,7 @@ const Index: React.FC<Props> = ({ task, open, onClose }) => {
               </div>
               <div>
                 <Tooltip tip="Adicionar Tarefa">
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    startIcon={<FaPlusCircle />}
-                  >
-                    Editar Tarefa
-                  </Button>
+                  <Button icon={FaPlusCircle}>Editar Tarefa</Button>
                 </Tooltip>
                 <ButtonBase className="btn-cancelar" onClick={onClose}>
                   Cancelar

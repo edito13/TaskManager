@@ -1,15 +1,8 @@
-import { createContext, useContext } from "react";
+import { createContext } from "react";
 
-interface AuthContextType {
-  isAuthenticated: boolean;
-  SetIsAuthenticated: (value: boolean) => void;
-}
-
-const AuthContext = createContext<AuthContextType>({
+const AuthContext = createContext<AuthContextI>({
   isAuthenticated: false,
   SetIsAuthenticated: () => {},
 });
-
-export const useAuth = (): AuthContextType => useContext(AuthContext);
 
 export default AuthContext;

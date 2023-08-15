@@ -1,11 +1,11 @@
 import { FormEvent, useRef } from "react";
-import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
-import { FaPaperPlane } from "react-icons/fa";
+import Button from "../Button";
 import Tooltip from "../Tooltip";
-import { Button } from "../../styles/styles";
-import { useAuth } from "../../contexts/auth";
-import { fetchAuthToken } from "../../assets/fetchAuthToken";
+import Api from "../../services/api";
+import useAuth from "../../hooks/useAuth";
+import { useCookies } from "react-cookie";
+import { FaPaperPlane } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   changePage: () => void;
@@ -33,15 +33,10 @@ const Login: React.FC<Props> = ({ changePage, Load, onClose, setAlert }) => {
       if (!email) throw "Preencha o email correctamente.";
       else if (!password) throw "Preencha a senha correctamente.";
 
-      const options = {
-        url: "user/signin",
-        credentials: {
-          email,
-          password,
-        },
-      };
-
-      const token = await fetchAuthToken(options);
+      const { token } = await Api.loginUser({
+        email,
+        password,
+      });
 
       if (token) {
         setCookie("token", token, { path: "/" });
@@ -79,13 +74,7 @@ const Login: React.FC<Props> = ({ changePage, Load, onClose, setAlert }) => {
         </div>
         <div>
           <Tooltip tip="Criar a sua conta">
-            <Button
-              type="submit"
-              variant="contained"
-              startIcon={<FaPaperPlane />}
-            >
-              Iniciar sessão
-            </Button>
+            <Button icon={FaPaperPlane}>Iniciar sessão</Button>
           </Tooltip>
         </div>
         <p>

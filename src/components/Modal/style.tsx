@@ -53,7 +53,7 @@ export const Container = styled.div`
       div {
         label {
           display: block;
-          font-size: 1.2rem;
+          font-size: 1rem;
           color: #fff;
           margin-bottom: 0.2rem;
         }
@@ -62,7 +62,7 @@ export const Container = styled.div`
           border: none;
           border-radius: 4px;
           padding: 7px 9px;
-          font-size: 1rem;
+          font-size: 1.2rem;
           width: 100%;
 
           &::placeholder {
@@ -92,7 +92,7 @@ export const Container = styled.div`
       p {
         text-align: center;
         margin-top: 0.5rem;
-        font-size: 1.08rem;
+        font-size: 1rem;
         color: #fff;
 
         span {

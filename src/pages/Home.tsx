@@ -1,18 +1,26 @@
 import { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { Container } from "../styles/styles";
+import useAuth from "../hooks/useAuth";
 import Modal from "../components/Modal";
+import { useNavigate } from "react-router-dom";
+import { Container } from "../styles/styles";
 
 const Initial = () => {
   useEffect(() => {
     AOS.init();
   }, []);
 
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [IsOpenModal, setIsOpenModal] = useState(false);
 
-  // Ir para a página de tarefas assim que a animação de loading terminar
-  const handleNavigate = () => setIsOpenModal(true);
+  // Ir para a página de tarefas assim que a animação de loading terminar se estiver logado
+  const handleNavigate = () => {
+    if (isAuthenticated) return navigate("/tasks");
+    // Caso não então abre o modal para fazer o login ou cadastro
+    setIsOpenModal(true);
+  };
 
   return (
     <Container>

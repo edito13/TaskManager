@@ -2,39 +2,29 @@ import { useEffect, useState } from "react";
 import Loading from "../Loading";
 import Popover from "../Popover";
 import { Container, MainModal } from "./style";
+import useLoading from "../../hooks/useLoading";
 
-interface Props {
+interface ModalProps {
   open: boolean;
   onClose: () => void;
 }
 
-const Index: React.FC<Props> = ({ open, onClose }) => {
+const Index: React.FC<ModalProps> = ({ open, onClose }) => {
   const [anchorEl, setAnchorEl] = useState(false);
-  const [LoadingStatus, setLoadingStatus] = useState(false);
-  const [LoadingCounter, setLoadingCounter] = useState(1);
+  const { isLoading } = useLoading();
 
   // Desactivar Popover
   const handleClosePop = () => setAnchorEl(false);
 
   useEffect(() => {
-    const time = setInterval(
-      () => setLoadingCounter((count) => count + 1),
-      1000
-    );
-
-    return () => clearInterval(time);
-  }, [LoadingStatus]);
-
-  useEffect(() => {
-    if (LoadingCounter <= 1) setLoadingStatus(true);
-    else {
+    if (!isLoading) {
       setAnchorEl(true);
       setTimeout(() => {
         setAnchorEl(false);
         onClose();
       }, 1000);
     }
-  }, [LoadingCounter, onClose]);
+  }, [isLoading, onClose]);
 
   return (
     <MainModal open={open}>

@@ -27,8 +27,8 @@ export const Container = styled.div`
       background: #1e1e23;
       border-radius: 6px;
       padding: 0.7rem;
-      transition: 0.4s ease-in-out;
       cursor: pointer;
+      transition: all 1s ease-in-out;
 
       h4 {
         font-size: 1.2rem;
@@ -40,7 +40,7 @@ export const Container = styled.div`
       p {
         font-size: 0.9rem;
         color: #ccc;
-        max-width: 80%;
+        max-width: 100%;
         display: -webkit-box;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;

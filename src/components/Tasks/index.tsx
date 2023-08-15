@@ -1,50 +1,46 @@
-import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
+import { useState } from "react";
 import Task from "../Task";
 import Loading from "../Loading";
-import { Container } from "./style";
-import { Pagination } from "./style";
-import Api from "../../api";
-import { useSelector } from "react-redux";
-import { addTasks, selectAllTasks } from "../../store/Tasks/tasks.reducer";
-import { useDispatch } from "react-redux";
+import Api from "../../services/api";
+import { useQuery } from "react-query";
+import { useCookies } from "react-cookie";
+import { Container, Pagination } from "./style";
 
 const Index = () => {
   const [Page, setPage] = useState(1);
   const [cookies] = useCookies(["token"]);
+  const { token } = cookies;
 
   const limit = 4;
 
-  const dispatch = useDispatch();
+  const { data, isLoading, error } = useQuery<DataTask, Error>(
+    ["data", Page],
+    () => {
+      const data = Api.getTasks({ token, Page, limit });
+      return data;
+    },
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
 
-  const { tasks, totalPages } = useSelector(selectAllTasks);
-  const [IsLoading, setIsLoading] = useState(tasks.length ? false : true);
+  if (isLoading) return <Loading />;
 
-  useEffect(() => {
-    const fetchPaginatedData = async () => {
-      const data = await Api.getTasks({ token: cookies.token, Page, limit });
-      dispatch(addTasks(data));
-      setIsLoading(false);
-    };
-
-    fetchPaginatedData();
-  }, [Page]);
-
-  if (IsLoading) return <Loading />;
+  if (error) return <p>Erro...</p>;
 
   return (
     <Container>
       <div>
-        {tasks.length ? (
-          tasks.map((task, index) => (
-            <Task key={task.id} data={task} delay={(index + 1) * 100} />
+        {data?.tasks.length ? (
+          data.tasks.map((task, index) => (
+            <Task key={task.id} task={task} delay={(index + 1) * 100} />
           ))
         ) : (
           <p>Não há nenhuma tarefa cadastrada ainda.</p>
         )}
       </div>
       <Pagination
-        count={totalPages}
+        count={data?.totalPages}
         page={Page}
         onChange={(_, value) => setPage(value)}
       />

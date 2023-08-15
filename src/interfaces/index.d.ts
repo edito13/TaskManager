@@ -1,4 +1,4 @@
-interface Tasks {
+interface Task {
   id: string;
   title: string;
   description: string;
@@ -10,31 +10,47 @@ interface DataTask {
   totalPages: number;
 }
 
-interface createTaskI {
+interface loginUser {
+  email: string;
+  password: string;
+}
+
+interface createUser {
+  name: string;
+  email: string;
+  password: string;
+}
+
+interface createTask {
   title: string;
   token: string;
   description: string;
 }
 
-interface deleteTaskI {
+interface deleteTask {
   id: string;
   token: string;
 }
 
-interface editTaskI {
+interface editTask {
   id: string;
   title: string;
   token: string;
   description: string;
 }
 
-interface getTasksI {
+interface getTasks {
   token: string;
   Page: number;
   limit: number;
 }
 
-interface completeTaskI {
+interface completeTask {
   id: string;
   token: string;
+}
+
+interface AuthContext {
+  isAuthenticated: boolean;
+  SetIsAuthenticated: (value: boolean) => void;
 }
